@@ -1,0 +1,19 @@
+name = "H20x8"
+notes = "HGX 8 卡，NVSwitch 全互联；规格值，请按 datasheet 核对。"
+gpu = "h20"
+nic = "cx7"
+
+topology = [
+  ["-", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "-", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "-", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "-", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "-", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "-", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "-", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "-"],
+]
+
+[links.nvlink]             # 每卡单向，NVLink4 900 GB/s 双向
+gbps = 450
+latency_us = 8

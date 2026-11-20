@@ -1,0 +1,6 @@
+name = "ConnectX-7"
+notes = "400 Gb/s，每卡一个；规格值。"
+
+[access]
+gbps = 50
+latency_us = 15

@@ -1,0 +1,6 @@
+name = "H800"
+notes = "规格值，未乘可达效率；请按 datasheet 核对。"
+hbm_gb = 80
+
+[local]
+gbps = 3350

@@ -1,0 +1,20 @@
+name = "S3x8"
+notes = "8 卡 S3 一体机，卡间带宽对称；不配置 NIC"
+gpu = "s3"
+
+# topology[a][b]：卡 a 访问卡 b 显存所走的链路，对角线为 "-"
+topology = [
+  ["-", "peer", "peer", "peer", "peer", "peer", "peer", "peer"],
+  ["peer", "-", "peer", "peer", "peer", "peer", "peer", "peer"],
+  ["peer", "peer", "-", "peer", "peer", "peer", "peer", "peer"],
+  ["peer", "peer", "peer", "-", "peer", "peer", "peer", "peer"],
+  ["peer", "peer", "peer", "peer", "-", "peer", "peer", "peer"],
+  ["peer", "peer", "peer", "peer", "peer", "-", "peer", "peer"],
+  ["peer", "peer", "peer", "peer", "peer", "peer", "-", "peer"],
+  ["peer", "peer", "peer", "peer", "peer", "peer", "peer", "-"],
+]
+
+[links.peer]               # 读写对端显存，实测 GB/s
+payload = ["1KiB", "4KiB", "16KiB", "64KiB", "256KiB", "1MiB", "4MiB"]
+load    = [0.34,   1.32,   5.40,    16.40,   25.60,    32.67,  25.55]
+store   = [0.34,   1.36,   4.04,    13.50,   21.10,    26.46,  22.89]

@@ -1,0 +1,19 @@
+name = "B300x8"
+notes = "HGX 8 卡，NVSwitch 全互联；规格值，请按 datasheet 核对。"
+gpu = "b300"
+nic = "cx8"
+
+topology = [
+  ["-", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "-", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "-", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "-", "nvlink", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "-", "nvlink", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "-", "nvlink", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "-", "nvlink"],
+  ["nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "nvlink", "-"],
+]
+
+[links.nvlink]             # 每卡单向，NVLink5 1.8 TB/s 双向
+gbps = 900
+latency_us = 8

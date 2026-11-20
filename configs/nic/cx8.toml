@@ -1,0 +1,6 @@
+name = "ConnectX-8"
+notes = "800 Gb/s，每卡一个；规格值。"
+
+[access]
+gbps = 100
+latency_us = 15

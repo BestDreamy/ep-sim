@@ -1,0 +1,19 @@
+[project]
+name = "llmsim"
+version = "0.1.0"
+description = "MoE 层 EP all-to-all 传输时间仿真：硬件按 payload 的带宽曲线参数化"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+llmsim = "llmsim.cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["llmsim", "llmsim.viz"]
+
+[tool.setuptools.package-data]
+"llmsim.viz" = ["page.html", "page.css", "page.js"]

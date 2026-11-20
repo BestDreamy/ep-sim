@@ -1,0 +1,41 @@
+# DeepSeek V4.1 在 S3 8 卡机上的 MoE 层传输时间（EP all-to-all + 布局重排，不含专家计算）
+#   python -m llmsim configs/scenarios/deepseek_v41_s3.toml
+#   python -m llmsim configs/scenarios/deepseek_v41_s3.toml --sweep parallel.ep=2,4,8 --sweep a2a.concurrency=1,7
+#
+# 标准 batch 参考 SGLang / vLLM 部署 DeepSeek 类 MoE 的常见设置（来自记忆，请按实际版本核对）：
+#   部署：attention DP8 + MoE EP8（SGLang --tp 8 --dp 8 --enable-dp-attention；vLLM --data-parallel-size 8 --enable-expert-parallel）
+#   prefill：每卡 8192 token（SGLang chunked_prefill_size / vLLM max_num_batched_tokens 的常用值）
+#   decode ：每卡 128 token（SGLang DeepEP low-latency 每卡最大 dispatch token 数的默认值）
+
+server = "s3x8"           # configs/server/：GPU + 卡间拓扑 + NIC
+model = "deepseek_v4_1"
+
+[parallel]
+ep = 8
+redundant_experts = 0      # (384 + 冗余) 需能被 ep 整除
+placement = "eplb"
+dedup = "rank"
+
+[precision]
+dispatch = "fp8"
+combine = "bf16"
+transfer_scale_block = 128
+expert = "fp4"             # V4.1 quantization_config.expert_dtype
+expert_scale_block = 32    # 待确认：按 MXFP4 每 32 个元素 1 字节 scale 计
+shared = "fp8"
+
+[a2a]
+mode = "push"
+concurrency = 1            # 待确认：S3 每卡同时进行的对端传输数
+aggregate_gbps = 0
+local_copy = true
+permute = "segment"        # 顺序变换的数据搬运：segment 按段（每个来源卡 / 每个本地专家一段），buffer 整块，none 不计
+routing = "auto"
+
+[phases]                   # 每卡每步 dispatch 的 token 数
+prefill = 8192
+decode = 128
+
+[workload]
+expert_skew = 0.6          # 每层专家热度的 Zipf 指数（各层热点专家不同）；0 为均匀
+seed = 0

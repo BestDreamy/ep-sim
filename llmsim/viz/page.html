@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoE 层传输</title>
+<style>
+/*STYLE*/
+</style>
+</head>
+<body>
+<div class="viz-root">
+<div class="wrap">
+  <h1 id="title"></h1>
+  <p class="sub" id="sub"></p>
+  <div class="filters">
+    <div class="seg" id="f-phase"></div>
+    <div class="seg" id="f-stage"></div>
+    <div class="seg" id="f-dir"></div>
+  </div>
+  <div class="tiles" id="tiles"></div>
+
+  <div class="card">
+    <h2>每层传输时间</h2>
+    <p class="note">每层两个阶段各取最慢的卡（卡间传输 + 顺序变换）；点击柱子查看该层详情。</p>
+    <div class="legend">
+      <span><i class="swatch" style="background: var(--series-1)"></i>dispatch</span>
+      <span><i class="swatch" style="background: var(--series-2)"></i>combine</span>
+    </div>
+    <div id="layers"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="heat-title"></h2>
+    <p class="note">行是卡，列是 MoE 层，颜色越深数据量越大（不含发往本卡专家的部分，色阶从最小值到最大值）；点击列查看该层详情。</p>
+    <div id="heat"></div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <h2 id="matrix-title"></h2>
+      <p class="note">行是发送卡，列是接收卡；对角线是发往本卡专家的部分。</p>
+      <div id="matrix"></div>
+    </div>
+    <div class="card">
+      <h2 id="cards-title"></h2>
+      <p class="note">所有卡要等最慢的卡结束，竖线即本层这一阶段的耗时。</p>
+      <div class="legend" id="cards-legend"></div>
+      <div id="cards"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <details>
+      <summary>表格视图</summary>
+      <div id="table"></div>
+    </details>
+  </div>
+</div>
+<div id="tip"></div>
+</div>
+<script>
+/*SCRIPT*/
+</script>
+</body>
+</html>
